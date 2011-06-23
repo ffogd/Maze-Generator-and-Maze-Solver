@@ -1,0 +1,12 @@
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Astar\bin\Release\Astar.XML
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Astar\bin\Release\Astar.dll
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Astar\bin\Release\Astar.pdb
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Astar\obj\Release\ResolveAssemblyReference.cache
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Astar\obj\Release\Astar.dll
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Astar\obj\Release\Astar.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\Astar.XML
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\Astar.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\Astar.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\obj\Release\ResolveAssemblyReference.cache
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\obj\Release\Astar.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\obj\Release\Astar.pdb

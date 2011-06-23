@@ -1,0 +1,16 @@
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\App.XML
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\App.exe
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\App.pdb
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\Astar.dll
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\Maze.dll
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\Astar.pdb
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\Astar.xml
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\Maze.pdb
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\Maze.xml
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\obj\Debug\ResolveAssemblyReference.cache
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\obj\Debug\App.g.resources
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\obj\Debug\App.exe
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\obj\Debug\App.pdb
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\FSharp.PowerPack.Parallel.Seq.dll
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\FSharp.PowerPack.Parallel.Seq.pdb
+c:\dokumente und einstellungen\dgoff\eigene dateien\visual studio 2010\Projects\Maze\Maze\App\bin\Debug\FSharp.PowerPack.Parallel.Seq.xml

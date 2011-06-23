@@ -1,0 +1,16 @@
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\App.XML
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\App.exe
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\App.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\Astar.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\FSharp.PowerPack.Parallel.Seq.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\Maze.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\Astar.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\Astar.xml
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\Maze.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\Maze.xml
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\FSharp.PowerPack.Parallel.Seq.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\FSharp.PowerPack.Parallel.Seq.xml
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\obj\Release\ResolveAssemblyReference.cache
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\obj\Release\App.g.resources
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\obj\Release\App.exe
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\obj\Release\App.pdb
