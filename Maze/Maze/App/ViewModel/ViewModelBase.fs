@@ -18,4 +18,10 @@ type ViewModelBase() =
             let propertyName = methodInfo.Name
             propertyChangedEvent.Trigger(x, new PropertyChangedEventArgs(propertyName))
         | other -> failwith "not implemented" 
+//    let propertyChangedEvent = new DelegateEvent<PropertyChangedEventHandler>()
+//    interface INotifyPropertyChanged with
+//        [<CLIEvent>]
+//        member x.PropertyChanged = propertyChangedEvent.Publish
+//    member x.OnPropertyChanged propertyName = 
+//        propertyChangedEvent.Trigger([| x; new PropertyChangedEventArgs(propertyName) |])
         

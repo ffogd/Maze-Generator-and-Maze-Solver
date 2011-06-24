@@ -13,13 +13,15 @@ open Microsoft.FSharp.Collections
 module MazeModel =
     type Point = AntiObject.Point
     type MazeEnvironment = 
-        { environment : AntiObject.Environment; maze : Wall list; w : int; h : int; wallSize : float; coinX : float; coinY : float; update : AntiObject.Environment -> AntiObject.Environment}
+        { environment : AntiObject.Environment; maze : Wall list; rooms : Map<int *int, (int * int) list>; 
+            w : int; h : int; wallSize : float; coinX : float; coinY : float; update : AntiObject.Environment -> AntiObject.Environment}
         member x.IsEmpty = List.isEmpty <| x.maze
 
     let inline flip f a b = f b a
 
 
-    let empty = { environment = AntiObject.emptyEnvironment; maze = []; w = 100; h = 100; wallSize = 20.0; coinX = 0.0; coinY = 0.0; update = id }
+    let empty = { environment = AntiObject.emptyEnvironment; maze = []; rooms = Map.empty;
+                 w = 100; h = 100; wallSize = 20.0; coinX = 0.0; coinY = 0.0; update = id }
 
     let inline mapRooms mazeEnv =
         let mkWall (x, y) =
@@ -29,14 +31,13 @@ module MazeModel =
         PSeq.map mkWall [for x in [0..mazeEnv.w] do
                          for y in [0..mazeEnv.h] do
                          yield x,y] |> PSeq.toList |> Map.ofList 
-
+    
     let createSolver mazeEnv = 
-        let input = (MazeSolver.input mazeEnv.w mazeEnv.h)
         let startx, starty = (int mazeEnv.coinX) / int mazeEnv.wallSize, (int mazeEnv.coinY) / int mazeEnv.wallSize
-        if mazeEnv.w > 0 && mazeEnv.h > 0 then 
-            MazeSolver.run mazeEnv.maze ((startx, starty), (mazeEnv.w - 1, mazeEnv.h - 1)) input AstarImpl.astar
-        else
-            []
+        match mazeEnv.w > 0 && mazeEnv.h > 0, Map.isEmpty mazeEnv.rooms with 
+        | false, _      -> [] 
+        | true, true    -> MazeSolver.run (mapRooms mazeEnv) ((startx, starty), (mazeEnv.w - 1, mazeEnv.h - 1)) mazeEnv.w mazeEnv.h AstarImpl.astar
+        | true, false   -> MazeSolver.run mazeEnv.rooms ((startx, starty), (mazeEnv.w - 1, mazeEnv.h - 1)) mazeEnv.w mazeEnv.h AstarImpl.astar
 
     let inline fupdate w h =
         [for x in [-1..w] do
@@ -86,12 +87,12 @@ module MazeModel =
             match wall with
             | H(x, y) ->
                 let xf, yf = (float x) * mazeEnv.wallSize, (float y) * mazeEnv.wallSize
-                acc.Append(sprintf "M%f,%f" xf (yf + mazeEnv.wallSize)).Append(sprintf "H%f"   (xf + mazeEnv.wallSize))//|>ignore
-
+                acc.Append(sprintf "M%f,%fH%f" xf (yf + mazeEnv.wallSize)  (xf + mazeEnv.wallSize))
             | V(x, y) ->
                 let xf, yf =(float x) * mazeEnv.wallSize, (float y) * mazeEnv.wallSize
-                acc.Append(sprintf "M%f,%f" (xf + mazeEnv.wallSize) yf).Append(sprintf "V%f" (yf + mazeEnv.wallSize))
+                acc.Append(sprintf "M%f,%fV%f" (xf + mazeEnv.wallSize) yf (yf + mazeEnv.wallSize))
 
+        
         builder.Append(sprintf "M%f,%f" 0.0 0.0)|>ignore
         builder.Append(sprintf "L%f,%f %f,%f" 0.0   0.0     0.0     (h * mazeEnv.wallSize)) |> ignore
         builder.Append(sprintf " %f,%f %f,%f" 0.0   (h * mazeEnv.wallSize)  (w * mazeEnv.wallSize)  (h * mazeEnv.wallSize)) |>ignore
@@ -108,10 +109,10 @@ module MazeModel =
 
             builder.Append(sprintf "M%f,%f" ((float xstart) * wallSize + wallSize / 2.0) ((float ystart) * wallSize + wallSize / 2.0))|>ignore
 
-            let folder (acc: StringBuilder) ((x, y), (x',y')) =
+            let folder (acc : StringBuilder) ((x, y), (x',y')) =
                 let xf, yf =    (float x) * wallSize, (float y) * wallSize
                 let xf', yf' =  (float x') * wallSize, (float y') * wallSize 
-                builder.Append(sprintf "L%f,%f %f,%f" (xf + wallSize / 2.0) (yf + wallSize / 2.0)  (xf' + wallSize / 2.0)  (yf' + wallSize / 2.0))
+                acc.Append(sprintf "L%f,%f %f,%f" (xf + wallSize / 2.0) (yf + wallSize / 2.0)  (xf' + wallSize / 2.0)  (yf' + wallSize / 2.0))
 
             (solver
             |> Seq.pairwise
@@ -119,7 +120,8 @@ module MazeModel =
         | true -> String.Empty
     
     let createMaze w h l = 
-        {environment = AntiObject.emptyEnvironment; w = w; h = h; wallSize = l; maze = MazeGenerator.genMaze w h;coinX = 0.0; coinY = 0.0; update = fupdate w h}
+        {environment = AntiObject.emptyEnvironment; w = w; h = h; wallSize = l; maze = MazeGenerator.genMaze w h; 
+            rooms = Map.empty; coinX = 0.0; coinY = 0.0; update = fupdate w h}
     
     let isBoardEmpty mazeEnv = 
         if Map.isEmpty mazeEnv.environment.board then
@@ -129,9 +131,16 @@ module MazeModel =
 
     let createEnvironment mazeEnv desirability rate =
         let sx, sy = (int mazeEnv.coinX) / int mazeEnv.wallSize, (int mazeEnv.coinY) / int mazeEnv.wallSize
+        let fcreate rooms = 
+            AntiObject.createEnvironment mazeEnv.w mazeEnv.h rooms (desirability, sx, sy) (0, mazeEnv.h - 1) ((mazeEnv.w - 1) / 2, (mazeEnv.h-1) / 2) rate
+            
+        match Map.isEmpty mazeEnv.rooms with
+        | true ->
+            let rooms = (mapRooms mazeEnv)
+            {mazeEnv with rooms = rooms; coinX = (mazeEnv.wallSize / 4.0); coinY = (mazeEnv.wallSize / 4.0); environment = fcreate rooms}
+        | false ->
+            {mazeEnv with coinX = (mazeEnv.wallSize / 4.0); coinY = (mazeEnv.wallSize / 4.0); environment = fcreate mazeEnv.rooms}
 
-        let e = AntiObject.createEnvironment mazeEnv.w mazeEnv.h (mapRooms mazeEnv) (desirability, sx, sy) (0, mazeEnv.h - 1) ((mazeEnv.w - 1) / 2, (mazeEnv.h-1) / 2) rate
-        {mazeEnv with coinX = (mazeEnv.wallSize / 4.0); coinY = (mazeEnv.wallSize / 4.0); environment = e}
 
     let enemiesPos mazeEnv = 
         mazeEnv.environment.pursuers 

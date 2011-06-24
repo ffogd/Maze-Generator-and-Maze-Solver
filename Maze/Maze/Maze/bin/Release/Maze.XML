@@ -95,6 +95,12 @@
 <member name="">
 
 </member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
 <member name="T:Maze.AntiObject">
 
 </member>
@@ -155,12 +161,6 @@
 <member name="">
 
 </member>
-<member name="">
-
-</member>
-<member name="">
-
-</member>
 <member name="T:Maze.MazeSolver">
 
 </member>
@@ -177,6 +177,9 @@
 
 </member>
 <member name="T:Maze.MazeType">
+
+</member>
+<member name="">
 
 </member>
 <member name="">

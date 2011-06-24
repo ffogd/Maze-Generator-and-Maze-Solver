@@ -78,7 +78,7 @@
             </StackPanel>
             <StackPanel Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="Vertical" Margin="3">
                 <Button  Command="{Binding CreateMazeCommand}" Style="{StaticResource buttonStyle}" >Create Maze</Button>
-                <Button Name="AStar" Command="{Binding CreateAStarCommand}" Style="{StaticResource buttonStyle}" >A Star</Button>
+                <Button Name="AStar" Command="{Binding CreateAStarCommand}" Style="{StaticResource buttonStyle}" IsEnabled="{Binding Path=AStarEnabled}">A Star</Button>
                 <Button Name="Play" Command="{Binding CreatePlayCommand}" Style="{StaticResource buttonStyle}" >New Game</Button>
             </StackPanel>
         </Grid>

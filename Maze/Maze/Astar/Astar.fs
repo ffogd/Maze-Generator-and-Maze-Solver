@@ -63,6 +63,7 @@ module PriorityQueue =
   let inline ofSeq s = Seq.fold (fun q (prio, a) -> merge (singleton prio a) q) empty s
  
 module AstarImpl = 
+  open Microsoft.FSharp.Collections
   //Point -> (Point -> Set<Point>) -> (Point -> bool) -> (Point -> int) -> (Point -> int) -> Point list
   let astar start succ finish cost heur =
       let rec inner seen q =
@@ -80,7 +81,7 @@ module AstarImpl =
                    let costs item = c + (cost item) + (heur item) - (heur n) 
                     
                    let q' = 
-                       Set.difference succs seen |> Seq.map (fun x ->costs x, x :: next) 
+                       Set.difference succs seen |> PSeq.map (fun x -> costs x, x :: next) 
                        |> PriorityQueue.ofSeq |> PriorityQueue.merge dq
  
                    inner (Set.union seen succs) q'

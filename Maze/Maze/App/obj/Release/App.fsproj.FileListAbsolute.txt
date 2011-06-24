@@ -1,3 +1,19 @@
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\App.XML
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\App.exe
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\App.pdb
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\Astar.dll
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\FSharp.PowerPack.Parallel.Seq.dll
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\Maze.dll
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\Astar.pdb
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\Astar.xml
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\Maze.pdb
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\Maze.xml
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\FSharp.PowerPack.Parallel.Seq.pdb
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\bin\Release\FSharp.PowerPack.Parallel.Seq.xml
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\obj\Release\ResolveAssemblyReference.cache
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\obj\Release\App.g.resources
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\obj\Release\App.exe
+C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\App\obj\Release\App.pdb
 C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\App.XML
 C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\App.exe
 C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\App\bin\Release\App.pdb

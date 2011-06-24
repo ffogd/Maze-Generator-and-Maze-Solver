@@ -23,7 +23,7 @@ type MazeViewModel() =
     let mutable enemy2Y = -10.0
     let mutable rate    = 0.1
     let mutable desirability = 20.0
-
+    let mutable astarEnabled = false
     let mutable env = MazeModel.empty
 
     member x.SetEnemiesPos () = 
@@ -55,6 +55,11 @@ type MazeViewModel() =
             enemy2Y <- value
             base.RaisePropertyChangedEvent(<@x.Enemy2Y@>) 
 
+    member x.AStarEnabled 
+        with get () =  astarEnabled
+        and set value = 
+            astarEnabled <- value
+            base.RaisePropertyChangedEvent(<@x.AStarEnabled@>) 
     member x.CoinX 
         with get () =  env.coinX
         and set value = 
@@ -132,16 +137,19 @@ type MazeViewModel() =
         new RelayCommand ((fun canExecute -> true), (fun _ -> x.Play()))
     
     member x.Play() =
-        env <- MazeModel.createEnvironment env desirability rate
-        x.SetEnemiesPos ()
-        base.RaisePropertyChangedEvent(<@x.CoinX@>)
-        base.RaisePropertyChangedEvent(<@x.CoinY@>)
+        if not env.IsEmpty then
+            env <- MazeModel.createEnvironment env desirability rate
+            x.AStarEnabled <- true
+            x.SetEnemiesPos ()
+            base.RaisePropertyChangedEvent(<@x.CoinX@>)
+            base.RaisePropertyChangedEvent(<@x.CoinY@>)
         
     //MazeViewModel.fs
     member x.CreateMaze() =
         x.SolverData <- Geometry.Parse("")
         env <- MazeModel.createMaze x.MazeX x.MazeY x.WallSize
         x.MazeData <- Geometry.Parse(MazeModel.mazeToPath (float x.MazeX) (float x.MazeY) env)
+        x.AStarEnabled <- false
 
 
     member x.CreateAStar() =

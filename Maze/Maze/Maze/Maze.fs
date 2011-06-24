@@ -28,6 +28,8 @@ module MazeUtils =
 
     let inline updateA a (x, y) = Array2D.set a x y
 
+    let inline addPoint (x,y) (dx,dy) = (x + dx, y + dy)
+
 module UnionFind =
     open MazeUtils
 
@@ -103,44 +105,41 @@ module MazeGenerator =
 
 module MazeSolver =
     open MazeType
+    open MazeUtils
+    open Microsoft.FSharp.Collections
 
     let inline heuristic (x, y) (u, v) = max (abs (x - u))  (abs (y - v))
 
-    // Wall list-> 'a list list -> Point -> Set<Point> 
-    let inline successor walls maze (x,y) = 
-        let isWall w = List.exists ((=) w)  walls
-        set[for (u, v, w) in  [(x + 1,  y,      V(x,      y));
-                               (x - 1,  y,      V(x - 1,  y ));
-                               (x,      y + 1,  H(x,      y));
-                               (x,      y - 1,  H(x,  y - 1))] do
-            if (0 <= u && u < List.length maze 
-                && 0 <= v && v < List.length (List.head maze)) 
-                && (not (isWall w)) then
-                yield u,v//set [u, v]
+    // Map<int *int, (int * int) list> -> 'a list list -> Point -> Set<Point> 
+    let inline successor rooms w h p = 
+        let neighbours xs = List.map (addPoint p)  xs
+        set[for (u, v) in Map.find p rooms |> neighbours  do
+            if (0 <= u && u < w 
+                && 0 <= v && v < h) then
+                yield u,v
             ]
 
-    let inline find c =
-          let rec inner x m = 
-              match m with
-              | [] ->  failwith "Can't find tile."
-              | h :: t -> 
-                  match List.tryFindIndex (fun item -> item = c) h with
-                  | Some y -> x, y
-                  | otherwise -> inner (x+1) t
-          inner 0
+//    let inline find c =
+//          let rec inner x m = 
+//              match m with
+//              | [] ->  failwith "Can't find tile."
+//              | h :: t -> 
+//                  match List.tryFindIndex (fun item -> item = c) h with
+//                  | Some y -> x, y
+//                  | otherwise -> inner (x+1) t
+//          inner 0
 
-    let inline run walls (s,f) maze solver=
-          let start     = find s maze
-          let finish    = find f maze
-          let succ      = successor walls maze
-          let h         = heuristic finish
+    let inline run rooms (start, finish) w h solver=
+//          let start     = find s maze
+//          let finish    = find f maze
+          let succ      = successor rooms w h
           
-          solver start succ ((=) finish) (fun _ -> 0) h
+          solver start succ ((=) finish) (fun _ -> 0) (heuristic finish)
 //          let cost (x, y) = 0
 //              let costs = Map.ofList [('S',1);('F',1);('.',1);('*',2);('^',7)]
 //              List.nth m x 
 //              |> AstarTypes.flip List.nth y
 //              |> AstarTypes.flip Map.find costs        
     
-    let inline input w h = 
-        List.init w (fun x ->List.init h (fun y -> x,y))
+//    let inline input w h = 
+//        PSeq.init w (fun x ->PSeq.init h (fun y -> x,y))

@@ -61,7 +61,8 @@ module AntiObject =
         | Path of Double
         | Obstacle
 
-    type Environment = {board : Map<Point, CustomStack<Agent>>; w : int; h : int; pursuers : Point list; goal : Point; rooms: Map<(int * int),(int * int) list> ; rate : double}
+    type Environment = {board : Map<Point, CustomStack<Agent>>; w : int; h : int; pursuers : Point list; goal : Point; 
+                        rooms: Map<(int * int),(int * int) list> ; rate : double}
 
     let emptyEnvironment = {board = Map.empty; w = 0; h = 0; pursuers = []; goal= (0, 0); rooms = Map.empty; rate = 0.0 }
 
@@ -86,9 +87,6 @@ module AntiObject =
         match agents with
         | Cons(x, _) -> scent x
         | _          -> 0.0
-
-    let inline addPoint (x,y) (dx,dy) = (x + dx, y + dy)
-
 
     //Builds a basic environment
     //createEnvironment :: int -> -> int -> (int * int) list [,] -> (float * int * int) -> int * int -> int * int -> float- > Environment
@@ -127,10 +125,19 @@ module AntiObject =
                                         ; goal = dest }, true
         | false -> e, false
     
-    let inline checkPoint p =
-            match p with
-            | x, y when x < 0 || y < 0 -> false
-            | _ -> true 
+    type Either<'a,'b> =
+        | Left of 'a
+        | Rigth of 'b
+
+    let inline checkPoint p e =
+        let mapper p (dx,dy)  =
+            match dx,dy with
+            | dx, dy when dx < 0 || dy < 0      -> Rigth (Map.tryFind (addPoint p (dx, dy)) )
+            | dx, dy when dx >= 0 && dy >= 0    -> Left  (Map.tryFind (addPoint p (dx, dy)) e.board)
+            | other                             -> Left None  
+        match p with
+        | x, y when x < 0 || y < 0  -> List.empty
+        | _                         -> e.rooms.[p] |> List.map (mapper p)
              
     // Ensure we only move if there is a better scent available
     //updatePursuer :: Environment -> Point -> Environment
@@ -149,26 +156,25 @@ module AntiObject =
                     pursuers = tgt :: removeOne p e.pursuers }
 
     //diffusePoint :: Environment -> Map <Point, CustomStack<Agent>> -> Point -> CustomStack<Agent>
-    let inline diffusePoint e xs p = 
-        let diffusedScent s ys = s + e.rate * List.sum (List.map (fun x -> (scent x) - s) ys)
+    let inline diffusePoint rate agents check = 
+        let diffusedScent s ys = s + rate * List.sum (List.map (fun x -> (scent x) - s) ys)
     
-        let diffuse agents n =
+        let diffuse agents n xs=
             match agents with
-            | Cons (Path d, r) -> cons (Path  (diffusedScent d n)) r
+            | Cons (Path d, r) -> cons (Path  (diffusedScent d (n xs))) r
             | other            -> other   
-                    
-        let neighbours p = 
-            let mapper p (dx,dy)  =
-                match dx,dy with
-                | dx, dy when dx < 0 || dy < 0 -> Map.tryFind (addPoint p (dx, dy)) xs
-                | dx, dy when dx >= 0 && dy >= 0 -> Map.tryFind (addPoint p (dx, dy)) e.board                
-                | other-> failwith "invalid argument."  
-            
-            match checkPoint p with
-            | true ->   List.map head (e.rooms.[p] |> List.map (mapper p) |> List.choose id )
-            | false ->  List.empty
+         
+        let neighbours old = 
+            let mapper either  =
+                match either with
+                | Rigth map -> map old
+                | Left stack -> stack                
+
+            match check with
+            | _ :: _ ->   List.map head (check |> List.map mapper |> List.choose id )
+            | [] ->  List.empty
     
-        diffuse (e.board.[p]) (neighbours p)
+        diffuse agents neighbours  
 
 
     //updatePursuers :: Environment -> Environment
@@ -177,10 +183,19 @@ module AntiObject =
     // update :: Point list -> Environment -> Environment
     let inline update boardPoints e = 
         let updateBoard = 
-            e.board 
-            |> PSeq.fold (fun acc (x, y) -> 
-                            let dp = diffusePoint e acc (x,y)
-                            Map.add (x,y) dp acc) 
+            let tuple a = a,a
+            let applyTuple f a b = f (a, b)
+            let res ps=
+                ps
+                |> PSeq.map (fun p -> 
+                            Map.add p << diffusePoint e.rate e.board.[p] (checkPoint p e) )
+                |> Seq.reduce (fun f g ->  
+                                   applyTuple ((<||) g << tuple << (<||) f) )
+            res
+//            e.board 
+//            |> PSeq.fold (fun acc p -> 
+//                            let dp = diffusePoint e e.board.[p] (checkPoint p e) p acc 
+//                            Map.add p dp acc) 
 
-        updatePursuers {e with board = updateBoard boardPoints}      
+        updatePursuers {e with board = updateBoard boardPoints e.board e.board}      
 
