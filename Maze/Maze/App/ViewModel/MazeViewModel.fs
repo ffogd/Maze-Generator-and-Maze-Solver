@@ -143,8 +143,7 @@ type MazeViewModel() =
             x.SetEnemiesPos ()
             base.RaisePropertyChangedEvent(<@x.CoinX@>)
             base.RaisePropertyChangedEvent(<@x.CoinY@>)
-        
-    //MazeViewModel.fs
+
     member x.CreateMaze() =
         x.SolverData <- Geometry.Parse("")
         env <- MazeModel.createMaze x.MazeX x.MazeY x.WallSize

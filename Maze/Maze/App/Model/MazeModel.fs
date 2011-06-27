@@ -124,10 +124,7 @@ module MazeModel =
             rooms = Map.empty; coinX = 0.0; coinY = 0.0; update = fupdate w h}
     
     let isBoardEmpty mazeEnv = 
-        if Map.isEmpty mazeEnv.environment.board then
-            true
-        else
-            false
+        Map.isEmpty mazeEnv.environment.board 
 
     let createEnvironment mazeEnv desirability rate =
         let sx, sy = (int mazeEnv.coinX) / int mazeEnv.wallSize, (int mazeEnv.coinY) / int mazeEnv.wallSize

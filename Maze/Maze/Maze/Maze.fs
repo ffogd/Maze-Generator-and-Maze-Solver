@@ -1,4 +1,5 @@
 ﻿//Maze.fs
+//from Haskell Version http://cdsmith.wordpress.com/2011/06/06/mazes-in-haskell-my-version/
 namespace Maze
 
 open System
@@ -110,7 +111,7 @@ module MazeSolver =
 
     let inline heuristic (x, y) (u, v) = max (abs (x - u))  (abs (y - v))
 
-    // Map<int *int, (int * int) list> -> 'a list list -> Point -> Set<Point> 
+    // Map<int *int, (int * int) list> -> int-> int -> Point -> Set<Point> 
     let inline successor rooms w h p = 
         let neighbours xs = List.map (addPoint p)  xs
         set[for (u, v) in Map.find p rooms |> neighbours  do
