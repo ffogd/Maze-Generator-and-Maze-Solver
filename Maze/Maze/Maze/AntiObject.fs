@@ -129,12 +129,10 @@ module AntiObject =
                                         ; goal = dest }, true
         | false -> e, false
 
-    let inline checkPoint p e =
+    let inline checkPoint p e board =
         let mapper p (dx,dy)  =
-            match dx,dy with
-            | dx, dy when dx < 0 || dy < 0      -> Right (Map.tryFind (addPoint p (dx, dy)) )
-            | dx, dy when dx >= 0 && dy >= 0    -> Left  (Map.tryFind (addPoint p (dx, dy)) e.board)
-            | other                             -> Left None  
+            Map.tryFind (addPoint p (dx, dy)) board
+
         match p with
         | x, y when x < 0 || y < 0  -> List.empty
         | _                         -> e.rooms.[p] |> List.map (mapper p)
@@ -155,23 +153,18 @@ module AntiObject =
             {e with board = move e.board p tgt;
                     pursuers = tgt :: removeOne p e.pursuers }
 
-    //diffusePoint :: float -> CustomStack<Agent> -> Either<CustomStack<Agent> option,('a -> CustomStack<Agent> option)> list -> ('a -> CustomStack<Agent>)
+    //diffusePoint :: float -> CustomStack<Agent> -> Agent list -> CustomStack<Agent>
     let inline diffusePoint rate agents check = 
         let diffusedScent s ys = s + rate * List.sum (List.map (fun x -> (scent x) - s) ys)
     
-        let diffuse agents n xs =
+        let diffuse agents n  =
             match agents with
-            | Cons (Path d, r) -> cons (Path  (diffusedScent d (n xs))) r
+            | Cons (Path d, r) -> cons (Path  (diffusedScent d n )) r
             | other            -> other   
          
-        let neighbours oldBoard = 
-            let mapper either  =
-                match either with
-                | Right map -> map oldBoard
-                | Left stack -> stack                
-
+        let neighbours =                 
             match check with
-            | _ :: _ ->   List.map head (check |> List.map mapper |> List.choose id )
+            | _ :: _ ->   List.map head (check |> List.choose id )
             | [] ->  List.empty
     
         diffuse agents neighbours  
@@ -182,16 +175,9 @@ module AntiObject =
 
     // update :: Point seq -> Environment -> Environment
     let inline update boardPoints e = 
-        let tuple a = a,a
-        let uncurry f (a, b) = f a b
         let updateBoard = 
-            let res ps=
-                ps
-                |> PSeq.map (fun p -> 
-                            Map.add p << diffusePoint e.rate e.board.[p] (checkPoint p e) |> uncurry)
-                |> Seq.reduce (fun f g ->  
-                                  g << tuple << f )
-            res
-
-        updatePursuers {e with board = updateBoard boardPoints  (tuple e.board)}      
+            PSeq.fold (fun acc p ->
+                        let dp = diffusePoint e.rate e.board.[p] (checkPoint p e acc)
+                        Map.add p dp acc) e.board
+        updatePursuers {e with board = updateBoard boardPoints}      
 
