@@ -140,12 +140,12 @@ module AntiObject =
     // Ensure we only move if there is a better scent available
     //updatePursuer :: Environment -> Point -> Environment
     let inline updatePursuer e p =
-        let top = topScent<<flip Map.find e.board
+        let top = topScent << flip Map.find e.board
         let neighbours = 
             e.rooms.[p] 
             |> List.map (addPoint p)
             |> List.filter (canMove<<flip Map.tryFind e.board)
-            |> List.filter (flip (>=) (top p)<<top) 
+            |> List.filter (flip (>=) (top p) << top) 
         match neighbours with
         | []  -> e
         | _   -> 

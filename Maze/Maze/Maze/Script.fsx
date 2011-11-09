@@ -2,11 +2,7 @@
 // It can be used to explore and test the library project.
 // Note that script files will not be part of the project build.
 
-#load "Maze.fs"
-open Maze
 
-let res = MazeGenerator.genMaze 50 50
-printfn "%A" res
 
 
 

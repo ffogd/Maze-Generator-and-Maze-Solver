@@ -13,7 +13,7 @@ open FSharpWpfMvvmTemplate.ViewModel
 // Create the View and bind it to the View Model
 let window =
     let mainWindowViewModel = Application.LoadComponent(
-                                    new System.Uri("/App;component/Maze.xaml", UriKind.Relative)) :?> Window
+                                    new System.Uri("/App;component/Main.xaml", UriKind.Relative)) :?> Window
 //                                 new System.Uri("/FSharpWpfMvvmTemplate.App;component/mainwindow.xaml", UriKind.Relative)) :?> Window
     mainWindowViewModel
 // Application Entry point

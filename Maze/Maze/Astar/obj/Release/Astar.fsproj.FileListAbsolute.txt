@@ -13,3 +13,15 @@ C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\
 C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\Astar\bin\Release\FSharp.PowerPack.Parallel.Seq.dll
 C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\Astar\bin\Release\FSharp.PowerPack.Parallel.Seq.pdb
 C:\Dokumente und Einstellungen\dgoff\Eigene Dateien\Visual Studio 2010\Projects\Maze\Maze\Astar\bin\Release\FSharp.PowerPack.Parallel.Seq.xml
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\Astar.XML
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\Astar.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\Astar.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\FSharp.PowerPack.Parallel.Seq.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\PriorityQueue.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\PriorityQueue.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\PriorityQueue.xml
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\FSharp.PowerPack.Parallel.Seq.pdb
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\bin\Release\FSharp.PowerPack.Parallel.Seq.xml
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\obj\Release\ResolveAssemblyReference.cache
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\obj\Release\Astar.dll
+C:\Users\blame\Maze-Generator-and-Maze-Solver\Maze\Maze\Astar\obj\Release\Astar.pdb

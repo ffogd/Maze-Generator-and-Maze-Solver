@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5f681529-e60a-4f46-93ba-eecc50639027}</ProjectGuid>
+    <ProjectGuid>{3ea89c40-914c-45ed-8fa8-cafa0ff2252a}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Maze</RootNamespace>
-    <AssemblyName>Maze</AssemblyName>
+    <RootNamespace>PriorityQueue</RootNamespace>
+    <AssemblyName>PriorityQueue</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>Maze</Name>
+    <Name>PriorityQueue</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,7 +20,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\Maze.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\PriorityQueue.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,11 +29,9 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\Maze.XML</DocumentationFile>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Release\PriorityQueue.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FSharp.PowerPack.Parallel.Seq, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a19089b1c74d0809" />
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="System" />
@@ -41,17 +39,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Maze.fs" />
-    <Compile Include="JumpPointsSearch.fs" />
+    <Compile Include="PriorityQueue.fs" />
     <None Include="Script.fsx" />
-    <Compile Include="AntiObject.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\PriorityQueue\PriorityQueue.fsproj">
-      <Name>PriorityQueue</Name>
-      <Project>{3ea89c40-914c-45ed-8fa8-cafa0ff2252a}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />

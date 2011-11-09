@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Maze", "Maze\Maze\Maze.fspr
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Astar", "Maze\Astar\Astar.fsproj", "{C5DA711E-E644-43ED-A317-B588A5759141}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PriorityQueue", "PriorityQueue\PriorityQueue.fsproj", "{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{C5DA711E-E644-43ED-A317-B588A5759141}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C5DA711E-E644-43ED-A317-B588A5759141}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C5DA711E-E644-43ED-A317-B588A5759141}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3EA89C40-914C-45ED-8FA8-CAFA0FF2252A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

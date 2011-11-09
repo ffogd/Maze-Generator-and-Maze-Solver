@@ -58,13 +58,18 @@
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <ItemGroup>
+    <Compile Include="Model\JumpMazeModel.fs" />
     <Compile Include="Model\MazeModel.fs" />
     <Compile Include="ViewModel\RelayCommand.fs" />
     <Compile Include="ViewModel\ViewModelBase.fs" />
+    <Compile Include="ViewModel\MainViewModel.fs" />
     <Compile Include="ViewModel\MazeViewModel.fs" />
+    <Compile Include="ViewModel\JumpSearchViewModel.fs" />
     <Compile Include="App.fs" />
     <Resource Include="ApplicationResources.xaml" />
     <Resource Include="Maze.xaml" />
+    <Resource Include="JumpSearch.xaml" />
+    <Resource Include="Main.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -84,6 +89,11 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
+    <ProjectReference Include="..\..\PriorityQueue\PriorityQueue.fsproj">
+      <Name>PriorityQueue</Name>
+      <Project>{3ea89c40-914c-45ed-8fa8-cafa0ff2252a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Astar\Astar.fsproj">
       <Name>Astar</Name>
       <Project>{c5da711e-e644-43ed-a317-b588a5759141}</Project>
