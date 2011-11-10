@@ -5,15 +5,8 @@ open System.Windows.Input
 open System.Text
 open Microsoft.FSharp.Collections
 
-
-module JumpMazeModel =
-    open Maze.MazeType
-    open Maze.MazeUtils
-    open Maze.MazeGenerator
-    open Maze.UnionFind
+module JumpMazeModelType =
     open Maze.JumpPointSearchType
-    open Maze.JumpPointsSearch
-
     type SelectedCoin =
         | Start of float * float
         | Finish of float * float
@@ -25,6 +18,17 @@ module JumpMazeModel =
 
     let empty = { maze = empty; obstacles = Set.empty;
                   wallSize = 20.0; coinX = 0.0; coinY = 0.0;targetX = 0.0; targetY = 0.0 }
+
+[<RequireQualifiedAccess>]
+module JumpMazeModel =
+    open Maze.MazeType
+    open Maze.MazeUtils
+    open Maze.MazeGenerator
+    open Maze.UnionFind
+    open Maze.JumpPointSearchType
+    open Maze.JumpPointsSearch
+    open JumpMazeModelType
+
     // Create the grid from the obstacles set.
     // mapObstaclesToGrid : JumpPointEnvironment -> Set<int * int> -> JumpPointEnvironment
     let inline mapObstaclesToGrid mazeEnv obstacles =
@@ -141,7 +145,8 @@ module JumpMazeModel =
         | true -> String.Empty
                 
     let moveCoin (mazeEnv : MazeEnvironment) move selectedCoin =
-        let inner (cx, cy) (coinX, coinY) =
+        let inner (coinX, coinY) =
+            let cx, cy = (int coinX) / int mazeEnv.wallSize , (int coinY) / int mazeEnv.wallSize
             match move, mazeEnv.IsEmpty with
             | _, true -> coinX, coinY
             | Key.Down, false ->             
@@ -155,23 +160,22 @@ module JumpMazeModel =
                 else
                     coinX, coinY - mazeEnv.wallSize
             | Key.Right, false -> 
-                if cx >= mazeEnv.maze.w-1 || (Set.exists ( fun w -> w = (cx + 1, cy)) mazeEnv.obstacles) then
+                if cx >= mazeEnv.maze.w - 1 || (Set.exists ( fun w -> w = (cx + 1, cy)) mazeEnv.obstacles) then
                     coinX, coinY
                 else
                     coinX + mazeEnv.wallSize, coinY
             | Key.Left, false -> 
-                if cx = 0 || (Set.exists ( fun w -> w = (cx-1, cy)) mazeEnv.obstacles) then
+                if cx = 0 || (Set.exists ( fun w -> w = (cx - 1, cy)) mazeEnv.obstacles) then
                     coinX, coinY
                 else
                     coinX - mazeEnv.wallSize, coinY
+            | _, false -> coinX, coinY
         match selectedCoin with
         | Start (dx, dy) -> 
-            let cx, cy = (int dx) / int mazeEnv.wallSize , (int dy) / int mazeEnv.wallSize
-            let moveX, moveY = inner (cx, cy) (dx, dy)
+            let moveX, moveY = inner (dx, dy)
             {mazeEnv with coinX = moveX; coinY = moveY}
         | Finish (dx, dy) -> 
-            let cx, cy = (int dx) / int mazeEnv.wallSize , (int dy) / int mazeEnv.wallSize
-            let moveX, moveY = inner (cx, cy) (dx, dy)
+            let moveX, moveY = inner (dx, dy)
             {mazeEnv with targetX = moveX; targetY = moveY}
         
     let setW mazeEnv w = {mazeEnv with maze = {mazeEnv.maze with w = w}}

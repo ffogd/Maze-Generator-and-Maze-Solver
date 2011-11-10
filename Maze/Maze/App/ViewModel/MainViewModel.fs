@@ -12,6 +12,7 @@ open System.Collections.ObjectModel
 
 open FSharpWpfMvvmTemplate.Model
 
+
 type MainViewModel() =   
     class
         inherit ViewModelBase()

@@ -54,15 +54,15 @@
                 </DrawingBrush>
             </Canvas.Background>
             <Canvas.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding LeftClickCommand}" CommandParameter="{Binding ElementName=canvas}" />
-                <MouseBinding MouseAction="RightClick"  Command="{Binding RightClickCommand}" CommandParameter="{Binding ElementName=canvas}"/>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding LeftClickCommand}" />
+                <MouseBinding MouseAction="RightClick"  Command="{Binding RightClickCommand}" />
             </Canvas.InputBindings>
             <Path Name="mazePath" Stroke="Black" Data="{Binding Path=MazeData}" ClipToBounds="True" StrokeThickness="4" ></Path>
             <Path Stroke="BurlyWood" Data="{Binding Path=AnimateData}" ClipToBounds="True" StrokeThickness="2"></Path>
             <Path Name="solverPath" Stroke="Purple"  Data="{Binding Path=SolverData}" ClipToBounds="True" StrokeDashArray="4 2"  StrokeThickness="3" ></Path>
             <Ellipse Name="coin" Width="10" Height="10" Fill="Blue" 
                      Canvas.Left="{Binding Path=CoinX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                     Canvas.Top="{Binding Path=CoinY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                     Canvas.Top="{Binding Path=CoinY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" />
             <Ellipse Name="target" Width="10" Height="10" Fill="Red" 
                      Canvas.Left="{Binding Path=TargetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                      Canvas.Top="{Binding Path=TargetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -84,8 +84,7 @@
 
             <StackPanel Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="Vertical" Margin="3">
                 <Button Command="{Binding CreateMazeCommand}"  CommandParameter="{Binding ElementName=canvas}" Style="{StaticResource buttonStyle}" >Init Maze</Button>
-                <Button Name="AStar" Command="{Binding CreateAStarCommand}" Style="{StaticResource buttonStyle}" IsEnabled="{Binding Path=AStarEnabled}">A* Jump Point Search</Button>
-                
+                <Button Name="AStar" Command="{Binding CreateAStarCommand}" Style="{StaticResource buttonStyle}" IsEnabled="{Binding Path=AStarEnabled}">A* Jump Points Search</Button>
                 <Button Command="{Binding AnimateCommand}"  Style="{StaticResource buttonStyle}" IsEnabled="{Binding Path=AStarEnabled}">Animate</Button>
             </StackPanel>
         </Grid>

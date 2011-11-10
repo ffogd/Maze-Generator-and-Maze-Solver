@@ -1,7 +1,6 @@
 ﻿namespace Maze
 
 open System
-// from http://harablog.wordpress.com/2011/09/07/jump-point-search/
 
 module JumpPointSearchType =
   open MazeType
@@ -235,15 +234,15 @@ module JumpPointsSearch =
                    | otherwise -> 
                        let succs = env.successors expanded
                        let dir = directionToParent parent expanded
-                       let tests = findJumpPoints env expanded dir succs  |> Set.ofSeq
+                       let jumpPoints = findJumpPoints env expanded dir succs  |> Set.ofSeq
  
                        let costs target = currentCosts + (env.stepCosts expanded target)  
                                             + (env.heuristic target) - (env.heuristic expanded) 
 
                        let q' = 
-                           Set.difference tests seen |> Seq.map (fun a -> costs a, (a, expanded)) 
+                           Set.difference jumpPoints seen |> Seq.map (fun a -> costs a, (a, expanded)) 
                            |> PriorityQueue.ofSeq |> PriorityQueue.merge dq
-                       Some ((expanded, (parent, currentCosts)), ((Set.union seen tests), q'))
+                       Some ((expanded, (parent, currentCosts)), ((Set.union seen jumpPoints), q'))
                    
       Seq.unfold inner ((Set.singleton start), (PriorityQueue.singleton (env.heuristic start) (start,start))) 
   
