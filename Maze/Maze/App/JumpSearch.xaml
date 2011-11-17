@@ -1,5 +1,6 @@
 ﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:ViewModel="clr-namespace:FSharpWpfMvvmTemplate.ViewModel;assembly=App"
+      xmlns:AttachedProperty="clr-namespace:FSharpWpfMvvmTemplate.AttachedProperty;assembly=App"  
       xmlns:i="clr-namespace:System.Windows.Input;assembly=WindowsBase"
              mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" >
@@ -36,7 +37,7 @@
             <ColumnDefinition Width="100*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Canvas Name="canvas" Grid.Column="0"
+        <Canvas Name="canvas" Grid.Column="0" AttachedProperty:TrackMouseBehavior.TrackPosition="{Binding TrackMouseMove}"
                  ClipToBounds="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Canvas.Background>
                 <DrawingBrush  
@@ -54,7 +55,6 @@
                 </DrawingBrush>
             </Canvas.Background>
             <Canvas.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding LeftClickCommand}" />
                 <MouseBinding MouseAction="RightClick"  Command="{Binding RightClickCommand}" />
             </Canvas.InputBindings>
             <Path Name="mazePath" Stroke="Black" Data="{Binding Path=MazeData}" ClipToBounds="True" StrokeThickness="4" ></Path>

@@ -70,6 +70,7 @@ module MazeModel =
                     mazeEnv.coinX, mazeEnv.coinY
                 else
                     mazeEnv.coinX - mazeEnv.wallSize, mazeEnv.coinY
+            | _, false -> mazeEnv.coinX, mazeEnv.coinY
 
         if (moveX, moveY) <> (mazeEnv.coinX, mazeEnv.coinY) then
             let goalX, goalY = (int moveX) / int mazeEnv.wallSize, (int moveY) / int mazeEnv.wallSize
