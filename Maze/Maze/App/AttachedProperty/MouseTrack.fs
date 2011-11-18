@@ -1,3 +1,4 @@
+//NO GUARANTEE. I'm not sure that using of the Event class at this pointis is allowed.
 namespace FSharpWpfMvvmTemplate.AttachedProperty
 
 open System.Windows
