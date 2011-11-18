@@ -37,15 +37,29 @@ type JumpSearchViewModel() as x=
         let mutable animatePoints = []
         let mutable undo = []
         let mutable canvas : Canvas = null
-        let mutable trackMouse : TrackMouse = {action = fun _->()}
 
         let AddPointToPath (x, y) wallSize =
             let xf, yf = (float x) * wallSize, (float y) * wallSize
             let v = sprintf "M%f,%fV%f" xf yf  (yf + wallSize)
-            let h= sprintf " H%fV%fH%f" (xf + wallSize) yf xf
-            sprintf "%s%s%s" mazePath v h
+            let h = sprintf " H%fV%fH%f" (xf + wallSize) yf xf
+            sprintf "%s%s" v h
+        
+        let CreateMazePath w h wallSize points =
+            let builder = StringBuilder()
+        
+            let folder (acc : StringBuilder) wall  =
+                match wall with
+                | (x, y) ->
+                      acc.Append(AddPointToPath (x, y) wallSize)
+
+            builder.Append(sprintf "M%f,%f" 0.0 0.0) |> ignore
+            builder.Append(sprintf "L%f,%f %f,%f" 0.0   0.0     0.0     (h * wallSize)) |> ignore
+            builder.Append(sprintf " %f,%f %f,%f" 0.0   (h * wallSize)  (w * wallSize)  (h * wallSize)) |> ignore
+            builder.Append(sprintf " %f,%f %f,%f" (w * wallSize)  (h * wallSize)    (w * wallSize)    0.0) |> ignore
+            builder.Append(sprintf " %f,%f %f,%f" (w * wallSize)  0.0   0.0     0.0)|>ignore
+            (points |> PSeq.fold folder builder).ToString()
+
         do 
-            trackMouse <- {action = x.AddPoint}
             timer.Interval <- new TimeSpan(0, 0, 0, 0, 400)
             timer.Tick.Add(fun _  -> x.AnimateOneStep () )   
         
@@ -67,7 +81,8 @@ type JumpSearchViewModel() as x=
             if x.MazeX < 20 then
                 "Min X = 20"
             else
-                null    
+                null
+                    
         member private x.VerifyY() =
             if x.MazeY < 20 then
                 "Min Y = 20"
@@ -85,25 +100,8 @@ type JumpSearchViewModel() as x=
                     |_, true -> selectedCoin <- Finish (env.targetX, env.targetY)
                     | _ ->
                         obstacles <- Set.add (pointX, pointY) obstacles
-                        mazePath <- AddPointToPath (pointX, pointY) x.WallSize
+                        mazePath <- sprintf "%s%s" mazePath  (AddPointToPath (pointX, pointY) x.WallSize)
                         x.MazeData <- Geometry.Parse(mazePath)
-        
-        static member CreateMazePath w h wallSize points =
-            let builder = StringBuilder()
-        
-            let folder (acc : StringBuilder) wall  =
-                match wall with
-                | (x, y) ->
-                    let xf, yf = (float x) * wallSize, (float y) * wallSize
-                    acc.Append(sprintf "M%f,%fV%f" xf yf  (yf + wallSize))|>ignore
-                    acc.Append(sprintf " H%fV%fH%f" (xf + wallSize) yf xf) 
-        
-            builder.Append(sprintf "M%f,%f" 0.0 0.0)|>ignore
-            builder.Append(sprintf "L%f,%f %f,%f" 0.0   0.0     0.0     (h * wallSize)) |> ignore
-            builder.Append(sprintf " %f,%f %f,%f" 0.0   (h * wallSize)  (w * wallSize)  (h * wallSize)) |>ignore
-            builder.Append(sprintf " %f,%f %f,%f" (w * wallSize)  (h * wallSize)    (w * wallSize)    0.0) |>ignore
-            builder.Append(sprintf " %f,%f %f,%f" (w * wallSize)  0.0   0.0     0.0)|>ignore
-            (points |> PSeq.fold folder builder).ToString()
         
         member x.AStarEnabled 
             with get () =  astarEnabled
@@ -176,27 +174,8 @@ type JumpSearchViewModel() as x=
                 base.RaisePropertyChangedEvent(<@x.AnimateData@>)  
 
         member x.TrackMouseMove
-            with get () =  trackMouse
-            and set value = 
-                trackMouse<-value        
-                base.RaisePropertyChangedEvent(<@x.TrackMouseMove@>)
+            with get () =  {action = x.AddPoint}
                                                           
-//        member x.LeftClickCommand  = 
-//            // if the mouse position hit the start or the finish coin position,
-//            // then select a coin. Otherwise add obstacle at mouse position.
-//            new RelayCommand ((fun canExecute -> not env.IsEmpty && not timer.IsEnabled && x.VerifyX() = null && x.VerifyY()  = null), 
-//                                (fun _ -> 
-//                                    if canvas <> null then
-//                                        let pos = Mouse.GetPosition(canvas)
-//                                        let cellPos (posx, posy) = (posx / 20.0 |> int), (posy / 20.0 |> int)
-//                                        //check if the mouse click hit the start or the finish coin position.
-//                                        match cellPos (pos.X, pos.Y) = cellPos (env.coinX, env.coinY),  cellPos (pos.X, pos.Y) = cellPos (env.targetX, env.targetY) with
-//                                        | true, _ -> selectedCoin <- Start (env.coinX, env.coinY)
-//                                        |_, true -> selectedCoin <- Finish (env.targetX, env.targetY)
-//                                        | _ ->
-//                                            obstacles <- Set.add (cellPos (pos.X, pos.Y)) obstacles
-//                                            x.MazeData <- Geometry.Parse(JumpSearchViewModel.CreateMazePath (x.MazeX |> float)  (x.MazeY |> float) x.WallSize obstacles)
-//                                            ))
         member x.RightClickCommand  =
             //Remove obstacle at mouse position.
             new RelayCommand ((fun canExecute -> not env.IsEmpty && not timer.IsEnabled && x.VerifyX() = null && x.VerifyY() = null), 
@@ -204,9 +183,8 @@ type JumpSearchViewModel() as x=
                                     if canvas <> null then
                                         let pos = Mouse.GetPosition(canvas)
                                         let posx, posy = (pos.X/20.0 |> int), (pos.Y / 20.0 |> int)
-                                        let o = Set.remove (posx, posy) obstacles
-                                        obstacles <- o //Set.remove (posx, posy) obstacles
-                                        mazePath <- JumpSearchViewModel.CreateMazePath (x.MazeX |> float)  (x.MazeY |> float) x.WallSize obstacles
+                                        obstacles <- Set.remove (posx, posy) obstacles
+                                        mazePath <- CreateMazePath (x.MazeX |> float)  (x.MazeY |> float) x.WallSize obstacles
                                         x.MazeData <- Geometry.Parse(mazePath)))
         
         member x.DrawArrow(x2, y2, d) =
@@ -249,7 +227,7 @@ type JumpSearchViewModel() as x=
             x.TargetX <- env.targetX
             x.TargetY <- env.targetY
             obstacles <- env.obstacles
-            mazePath <- JumpSearchViewModel.CreateMazePath (x.MazeX |> float)  (x.MazeY |> float) x.WallSize obstacles 
+            mazePath <- CreateMazePath (x.MazeX |> float)  (x.MazeY |> float) x.WallSize obstacles 
             x.MazeData <- Geometry.Parse(mazePath)
             x.AStarEnabled <- true
 
@@ -287,7 +265,7 @@ type JumpSearchViewModel() as x=
         member x.AnimateOneStep () =
             match animatePoints with
             | [] -> timer.Stop()
-            | [((currx, curry),(x',y'), d)] ->
+            | [((currx, curry), (x',y'), d)] ->
                 let x2, y2, x1, y1 = (currx |> float) * env.wallSize + env.wallSize / 2.0, (curry |> float) * env.wallSize + env.wallSize / 2.0, (x' |> float) * env.wallSize + env.wallSize / 2.0, (y' |> float) * env.wallSize + env.wallSize / 2.0
                 animateData <- sprintf "%sM%f,%fL%f,%f %f,%f%s" animateData x1 y1 x1 y1 x2 y2 (x.DrawArrow (x2, y2, d))
                 x.AnimateData <- animateData
